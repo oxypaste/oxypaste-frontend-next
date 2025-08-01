@@ -1,6 +1,6 @@
 // src/app/[id]/raw/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { getPaste } from "@/utils/editor-commons";
+import { getPaste } from "@/lib/api/paste";
 
 // Use RouteHandlerContext for the second argument
 export async function GET(
@@ -18,8 +18,10 @@ export async function GET(
     status: 200,
     headers: {
       "Content-Type": "text/plain",
-      "X-Paste-Language": paste.language || "plaintext",
       "X-Paste-ID": id,
+      "X-Paste-Created-At": paste.createdAt,
+      "X-Paste-Created-By": paste.createdBy,
+      "X-Paste-Public": `${paste.public}`,
     },
   });
 }

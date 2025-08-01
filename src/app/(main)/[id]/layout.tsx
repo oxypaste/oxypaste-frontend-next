@@ -1,7 +1,11 @@
 // app/(main)/[id]/layout.tsx
 import { ReactNode } from "react";
 
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = await params;
 
   const res = await fetch(
@@ -21,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const meta = await res.json();
 
   return {
-    title: `idk.so - ${meta.title}`,
+    title: `OxyPaste - ${meta.title}`,
     description: `Code snippet '${meta.title}' written in '${meta.language}'`,
   };
 }

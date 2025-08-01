@@ -1,4 +1,4 @@
 export const APP_CONFIG = {
-  SIGNUP_PAGE_DOCUMENT: "signup",
-  LOGIN_PAGE_DOCUMENT: "login",
+  TERMS_AND_CONDITIONS_DOCUMENT: "terms",
+  PRIVACY_POLICY_DOCUMENT: "privacy",
 };

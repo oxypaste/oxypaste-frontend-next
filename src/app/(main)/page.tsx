@@ -6,6 +6,7 @@ import hljs from "highlight.js";
 import Swal from "sweetalert2";
 import { getPaste } from "@/utils/editor-commons";
 import "@fontsource/jetbrains-mono/400.css";
+import { createPaste } from "@/lib/api/paste";
 
 export default function HomePage() {
   const [content, setContent] = useState(``);
@@ -24,61 +25,24 @@ export default function HomePage() {
 
   const handleSave = async () => {
     try {
-      const formData = new FormData();
-      formData.append("content", content);
-      formData.append("language", language);
-      formData.append("title", title);
+      const token = localStorage.getItem("token") ?? undefined;
 
-      fetch("/api/pastes", {
-        method: "POST",
-        body: formData,
-        headers: {
-          Authorization: localStorage.getItem("token")
-            ? `Bearer ${localStorage.getItem("token")}`
-            : "",
-          Accept: "application/json",
-        },
-      })
-        .then((response) => {
-          if (response.ok) {
-            response.json().then((data) => {
-              if (
-                data.id &&
-                data.revocation_key &&
-                !localStorage.getItem("token")
-              ) {
-                localStorage.setItem(
-                  `paste_${data.id}`,
-                  JSON.stringify({
-                    revocation_key: data.revocation_key,
-                    date: Date.now(),
-                  })
-                );
-              }
-              window.location.href = `/${data.id}`;
-            });
-          } else {
-            Swal.fire({
-              icon: "error",
-              title: "Error",
-              text: "Failed to save.",
-            });
-          }
-        })
-        .catch(() => {
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "Failed to save.",
-          });
-        });
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "An error occurred while saving.",
+      const paste = await createPaste({
+        content,
+        public: false,
+        token,
       });
-      console.error(error);
+
+      window.location.href = `/${paste.id}`;
+
+      // Optional: redirect or update UI with paste.id
+      // e.g., router.push(`/pastes/${paste.id}`);
+    } catch (error: any) {
+      await Swal.fire({
+        icon: "error",
+        title: "Error saving paste",
+        text: error.message || "Something went wrong.",
+      });
     }
   };
 

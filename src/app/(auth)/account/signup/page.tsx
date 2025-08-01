@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Mail, Lock, User, Eye, EyeOff } from "lucide-react";
+import { APP_CONFIG } from "../../../../../app.config";
 
 const SignupPage: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -123,6 +124,22 @@ const SignupPage: React.FC = () => {
           Already have an account?{" "}
           <a href="/account/login" className="text-blue-400 hover:underline">
             Log in
+          </a>
+        </p>
+        <p className="text-center text-xs text-gray-400 mt-6">
+          Before signing up, please read the{" "}
+          <a
+            href={"/" + APP_CONFIG.TERMS_AND_CONDITIONS_DOCUMENT}
+            className="text-blue-400 hover:underline"
+          >
+            Terms and Conditions
+          </a>{" "}
+          &{" "}
+          <a
+            href={"/" + APP_CONFIG.PRIVACY_POLICY_DOCUMENT}
+            className="text-blue-400 hover:underline"
+          >
+            Privacy Policy
           </a>
         </p>
       </div>
