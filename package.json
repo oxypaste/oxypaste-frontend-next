@@ -1,0 +1,45 @@
+{
+  "name": "oxypaste-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"cd backend-playground && java -jar oxypaste.jar\" \"cross-env NEXT_PUBLIC_BASE_URL=http://localhost:3000 next dev --turbopack\"",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@fontsource/jetbrains-mono": "^5.2.5",
+    "@fortawesome/fontawesome-free": "^6.7.2",
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@radix-ui/react-tooltip": "^1.2.7",
+    "dompurify": "^3.2.6",
+    "highlight.js": "^11.11.1",
+    "jsdom": "^26.1.0",
+    "lucide-react": "^0.536.0",
+    "marked": "^16.1.1",
+    "next": "15.3.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-loader-spinner": "^6.1.6",
+    "react-markdown": "^10.1.0",
+    "sweetalert2": "^11.21.0"
+  },
+  "devDependencies": {
+    "@catppuccin/highlightjs": "^1.0.1",
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "concurrently": "^9.1.2",
+    "cross-env": "^10.0.0",
+    "eslint": "^9",
+    "eslint-config-next": "15.3.2",
+    "nodemon": "^3.1.10",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
