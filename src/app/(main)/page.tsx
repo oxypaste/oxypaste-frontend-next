@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import { getPaste } from "@/utils/editor-commons";
 import "@fontsource/jetbrains-mono/400.css";
 import { createPaste } from "@/lib/api/paste";
+import { APP_CONFIG } from "../../../app.config";
 
 export default function HomePage() {
   const [content, setContent] = useState(``);
@@ -77,8 +78,8 @@ export default function HomePage() {
         try {
           const data = await getPaste(id as string);
           setContent(data.content || "");
-          if (data.language) setLanguage(data.language);
-          if (data.title) setTitle(data.title);
+
+          // todo: add language and title
         } catch (err: any) {
           Swal.fire({
             icon: "error",
@@ -87,6 +88,10 @@ export default function HomePage() {
           });
           setContent(`// Error loading paste s: ${err.message}`);
         }
+      } else {
+        // Default readme
+        const data = await getPaste(APP_CONFIG.WELCOME_DOCUMENT);
+        setContent(data.content);
       }
     };
     fetchPaste();

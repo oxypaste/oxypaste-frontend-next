@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import hljs from "highlight.js";
 import "@catppuccin/highlightjs/css/catppuccin-mocha.css";
 import Footer from "@/components/Footer";
-import { getPaste } from "@/utils/editor-commons";
+import { getPaste } from "@/lib/api/paste";
 import Swal from "sweetalert2";
 import "@fontsource/jetbrains-mono/400.css";
 
@@ -26,8 +26,7 @@ export default function PastePage() {
         try {
           const data = await getPaste(id as string);
           setContent(data.content || "");
-          if (data.language) setLanguage(data.language);
-          if (data.title) setTitle(data.title);
+          // todo: fix language and title
         } catch (err: any) {
           Swal.fire({
             icon: "error",
@@ -113,10 +112,13 @@ function CodeBlock({
   return (
     <pre className="flex flex-auto h-full w-full text-xs pb-14">
       <code
-      
         ref={codeRef}
         className="w-full overflow-auto"
-        style={{ display: "block", height: "100%", fontFamily: "JetBrains Mono" }}
+        style={{
+          display: "block",
+          height: "100%",
+          fontFamily: "JetBrains Mono",
+        }}
         dangerouslySetInnerHTML={{ __html: highlighted }}
       />
     </pre>
