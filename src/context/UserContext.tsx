@@ -13,7 +13,6 @@ type User = {
   id: string;
   username: string;
   created_at: string;
-  statistics: number;
 };
 
 const UserContext = createContext<{
@@ -33,7 +32,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       if (!token) return;
 
       try {
-        const res = await fetch("/api/users/@me", {
+        const res = await fetch("/api/user/@me", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -45,7 +44,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         } else if (res.status === 401) {
           localStorage.removeItem("token");
           setUser(null);
-          window.location.href = "/account/login"
+          window.location.href = "/account/login";
         } else {
           console.error("Failed to fetch user", res.status);
         }

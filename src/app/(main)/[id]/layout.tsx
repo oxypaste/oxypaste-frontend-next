@@ -9,7 +9,7 @@ export async function generateMetadata({
   const { id } = await params;
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/pastes/${id}/meta`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/pastes/${id}`,
     {
       cache: "no-store",
     }
