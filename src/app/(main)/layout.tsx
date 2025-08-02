@@ -1,4 +1,4 @@
-import AccountButton from "@/components/AccountButton";
+import AccountButton from "@/components/MenuButton";
 import "@/app/globals.css";
 import { UserProvider } from "@/context/UserContext";
 
