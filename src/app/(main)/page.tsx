@@ -89,6 +89,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [search, setSearch] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const [filters, setFiltersState] = useState({
     createdBy: "",
@@ -129,7 +130,7 @@ export default function HomePage() {
     setHasMore(true);
 
     fetchPastes({
-      query: search.trim(),
+      query: searchQuery.trim(),
       page: 0,
       user: filters.createdBy || undefined,
       createdAfter: filters.createdAfter || undefined,
@@ -139,27 +140,28 @@ export default function HomePage() {
       setPastes(data);
       setHasMore(data.length === PAGE_SIZE);
     });
-  }, [search, filters]);
+  }, [searchQuery, filters]);
 
   return (
     <main className="max-w-6xl mx-auto px-4 py-8 text-white">
       <WelcomeSection />
+      <RootSection pastes={rootPastes} />
       <SearchInput
         value={search}
         onChange={setSearch}
+        onSearch={() => setSearchQuery(search)}
         onToggleAdvanced={() => setShowAdvanced((prev) => !prev)}
         showAdvanced={showAdvanced}
       />
       {showAdvanced && (
         <AdvancedSearch filters={filters} setFilters={setFilters} />
       )}
-      {search.trim() === "" && <RootSection pastes={rootPastes} />}
       <PasteList
         pastes={pastes}
         loading={loading}
         hasMore={hasMore}
         loadMore={loadMore}
-        searchActive={search.trim() !== ""}
+        searchActive={searchQuery.trim() !== ""}
       />
     </main>
   );
@@ -197,30 +199,42 @@ function WelcomeSection() {
 function SearchInput({
   value,
   onChange,
+  onSearch,
   onToggleAdvanced,
   showAdvanced,
 }: {
   value: string;
   onChange: (val: string) => void;
+  onSearch: () => void;
   onToggleAdvanced: () => void;
   showAdvanced: boolean;
 }) {
   return (
-    <div className="relative mb-4">
-      <input
-        type="text"
-        placeholder="Search pastes..."
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="w-full pl-12 pr-32 py-3 border border-gray-700 rounded-lg bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-      <FontAwesomeIcon
-        icon={faSearch}
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
-      />
+    <div className="relative mb-4 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+      <div className="relative flex-grow">
+        <input
+          type="text"
+          placeholder="Search pastes..."
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="w-full pl-10 pr-4 py-3 border border-gray-700 rounded-lg bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <FontAwesomeIcon
+          icon={faSearch}
+          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+        />
+      </div>
+
+      <button
+        onClick={onSearch}
+        className="px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition"
+      >
+        Search
+      </button>
+
       <button
         onClick={onToggleAdvanced}
-        className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-blue-400 underline"
+        className="text-sm text-blue-400 underline"
       >
         {showAdvanced ? "Hide Filters" : "Filters"}
       </button>
@@ -306,20 +320,30 @@ function PasteCard({
   return (
     <Link
       href={`/${paste.id}`}
-      className={`group block ${
+      className={`group relative block ${
         isRoot ? "p-6 rounded-xl shadow-md" : "p-5 rounded-lg"
       } bg-gray-800 border border-gray-700 hover:border-blue-500 hover:shadow-lg transition-all duration-300`}
     >
-      <h3 className="text-lg font-semibold truncate text-white group-hover:text-blue-400">
+      <div className="absolute top-3 right-3 text-gray-400">
+        <FontAwesomeIcon
+          icon={faThumbtack}
+          style={{ transform: "rotate(45deg)" }}
+        />
+      </div>
+
+      {/* Title */}
+      <h3 className="text-lg font-semibold truncate text-white group-hover:text-blue-400 pr-8">
         {paste.title || "Untitled"}
       </h3>
 
+      {/* Content preview if root */}
       {isRoot && paste.content && (
         <p className="text-gray-300 text-sm line-clamp-4 mt-2">
           {paste.content}
         </p>
       )}
 
+      {/* Metadata */}
       <div className="mt-3 text-sm text-gray-400 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4">
         <span className="flex items-center gap-1 truncate">
           <FontAwesomeIcon icon={faUser} />
@@ -342,10 +366,6 @@ function RootSection({ pastes }: { pastes: PasteMeta[] }) {
 
   return (
     <section className="mb-12">
-      <h2 className="text-2xl font-bold mb-6 text-white flex items-center gap-2">
-        <FontAwesomeIcon icon={faClipboard} className="text-blue-400" /> Root
-        Pastes
-      </h2>
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {pastes.map((paste) => (
           <PasteCard key={paste.id} paste={paste} isRoot />
