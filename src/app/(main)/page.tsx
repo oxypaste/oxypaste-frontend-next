@@ -176,7 +176,7 @@ function WelcomeSection() {
       <div className="absolute -bottom-32 -right-32 w-80 h-80 bg-purple-600 opacity-20 rounded-full blur-[120px] animate-pulse pointer-events-none" />
 
       {/* Headline */}
-      <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 drop-shadow mb-4">
+      <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 drop-shadow mb-4">
         Welcome to OxyPaste
       </h1>
 

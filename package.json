@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "https://github.com/oxypaste",
   "scripts": {
-    "dev": "concurrently \"cd backend-playground && java -jar oxypaste.jar\" \"cross-env NEXT_PUBLIC_BASE_URL=http://localhost:3000 next dev --turbopack\"",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -17,6 +17,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@radix-ui/react-tooltip": "^1.2.7",
+    "@types/react-google-recaptcha": "^2.1.9",
     "dompurify": "^3.2.6",
     "highlight.js": "^11.11.1",
     "jsdom": "^26.1.0",
@@ -25,6 +26,8 @@
     "next": "15.3.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-google-recaptcha": "^3.1.0",
+    "react-google-recaptcha-v3": "^1.11.0",
     "react-loader-spinner": "^6.1.6",
     "react-markdown": "^10.1.0",
     "sweetalert2": "^11.21.0"

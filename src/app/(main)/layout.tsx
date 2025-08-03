@@ -1,11 +1,4 @@
 import "@/app/globals.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEdit,
-  faHome,
-  faPencil,
-  faPencilAlt,
-} from "@fortawesome/free-solid-svg-icons";
 import { UserProvider } from "@/context/UserContext";
 import MenuButton from "@/components/MenuButton";
 import Footer from "@/components/Footer";
