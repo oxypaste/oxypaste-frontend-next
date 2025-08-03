@@ -14,6 +14,7 @@ import { LANGUAGE_OPTIONS, SHORTCUTS } from "@/utils/editor-commons";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Globe, Globe2 } from "lucide-react";
 
 interface FooterProps {
   language: string;
@@ -21,6 +22,8 @@ interface FooterProps {
   title: string;
   setTitle: (title: string) => void;
   setIsAutoDetect: (val: boolean) => void;
+  isPublic: boolean;
+  setPublic: (val: boolean) => void;
   isEditor: boolean;
   handleSave: () => void;
   handleEdit: () => void;
@@ -32,6 +35,8 @@ export default function EditorFooter({
   title,
   setTitle,
   setIsAutoDetect,
+  isPublic,
+  setPublic,
   isEditor,
   handleSave,
   handleEdit,
@@ -135,6 +140,23 @@ export default function EditorFooter({
           value={title}
           isEditor={isEditor}
         />
+        <button
+          onClick={() => setPublic(!isPublic)}
+          className="cursor-pointer flex items-center space-x-2 px-2 py-1 rounded hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          aria-label={isPublic ? "Set to private" : "Set to public"}
+          type="button"
+        >
+          <Globe
+            className={`w-5 h-5 transition-colors duration-200 ${
+              isPublic
+                ? "text-green-500"
+                : "text-transparent stroke-[1.5] stroke-gray-400"
+            }`}
+          />
+          <span className="text-sm text-white">
+            {isPublic ? "Public" : "Private"}
+          </span>
+        </button>
       </div>
       <div className="flex gap-4 items-center relative">
         {/* Show full buttons on medium+ screens */}

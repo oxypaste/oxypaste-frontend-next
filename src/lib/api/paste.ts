@@ -1,12 +1,14 @@
 import { Paste } from "@/lib/models/paste.model";
 
 interface CreatePasteOptions {
+  title: string;
   content: string;
   public: boolean;
   token?: string;
 }
 
 export async function createPaste({
+  title,
   content,
   public: isPublic,
   token,
@@ -18,6 +20,7 @@ export async function createPaste({
       ...(token && { Authorization: `Bearer ${token}` }),
     },
     body: JSON.stringify({
+      title,
       content,
       public: isPublic,
     }),

@@ -16,6 +16,7 @@ export default function PastePage() {
   const [title, setTitle] = useState("");
   const [language, setLanguage] = useState("");
   const [content, setContent] = useState("");
+  const [isPublic, setPublic] = useState(true);
 
   const linenosRef = useRef<HTMLDivElement>(null);
   const codeElementRef = useRef<HTMLElement>(null);
@@ -26,7 +27,8 @@ export default function PastePage() {
         try {
           const data = await getPaste(id as string);
           setContent(data.content || "");
-          // todo: fix language and title
+          setTitle(data.title);
+          // todo: fix language
         } catch (err: any) {
           Swal.fire({
             icon: "error",
@@ -86,10 +88,12 @@ export default function PastePage() {
         title={title}
         setTitle={setTitle}
         setIsAutoDetect={setIsAutoDetect}
+        setPublic={setPublic}
+        isPublic={isPublic}
         isEditor={false}
         handleSave={() => {}}
         handleEdit={() => {
-          window.location.href = `/?edit=${id}`;
+          window.location.href = `/new?edit=${id}`;
         }}
       />
     </>

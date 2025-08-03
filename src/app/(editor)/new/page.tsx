@@ -14,6 +14,7 @@ export default function HomePage() {
   const [language, setLanguage] = useState("");
   const [title, setTitle] = useState("");
   const [isAutoDetect, setIsAutoDetect] = useState(true);
+  const [isPublic, setPublic] = useState(true);
   const linenosRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -29,8 +30,9 @@ export default function HomePage() {
       const token = localStorage.getItem("token") ?? undefined;
 
       const paste = await createPaste({
+        title,
         content,
-        public: false,
+        public: isPublic,
         token,
       });
 
@@ -86,7 +88,7 @@ export default function HomePage() {
             title: "Error",
             text: err.message || "Failed to load paste.",
           });
-          setContent(`// Error loading paste s: ${err.message}`);
+          setContent(`// Error loading paste '${id}': ${err.message}`);
         }
       } else {
         // Default readme
@@ -126,6 +128,8 @@ export default function HomePage() {
         setLanguage={setLanguage}
         setTitle={setTitle}
         setIsAutoDetect={setIsAutoDetect}
+        setPublic={setPublic}
+        isPublic={isPublic}
         title={title}
         isEditor={true}
         handleSave={handleSave}

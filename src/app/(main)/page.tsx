@@ -324,12 +324,14 @@ function PasteCard({
         isRoot ? "p-6 rounded-xl shadow-md" : "p-5 rounded-lg"
       } bg-gray-800 border border-gray-700 hover:border-blue-500 hover:shadow-lg transition-all duration-300`}
     >
-      <div className="absolute top-3 right-3 text-gray-400">
-        <FontAwesomeIcon
-          icon={faThumbtack}
-          style={{ transform: "rotate(45deg)" }}
-        />
-      </div>
+      {isRoot && (
+        <div className="absolute top-3 right-3 text-gray-400">
+          <FontAwesomeIcon
+            icon={faThumbtack}
+            style={{ transform: "rotate(45deg)" }}
+          />
+        </div>
+      )}
 
       {/* Title */}
       <h3 className="text-lg font-semibold truncate text-white group-hover:text-blue-400 pr-8">
@@ -368,7 +370,7 @@ function RootSection({ pastes }: { pastes: PasteMeta[] }) {
     <section className="mb-12">
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {pastes.map((paste) => (
-          <PasteCard key={paste.id} paste={paste} isRoot />
+          <PasteCard key={paste.id} paste={paste} isRoot={true} />
         ))}
       </div>
     </section>
