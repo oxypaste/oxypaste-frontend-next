@@ -41,7 +41,7 @@ export default function MenuButton() {
       const timeout = setTimeout(() => {
         setDropdownVisible(false);
         setIsClosing(false);
-      }, 200); // Match with animation duration
+      }, 200);
       return () => clearTimeout(timeout);
     }
   }, [open]);
@@ -95,7 +95,7 @@ export default function MenuButton() {
             {/* Home */}
             <li>
               <a
-                href="/home"
+                href="/"
                 className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-gray-700 transition"
               >
                 <FontAwesomeIcon icon={faHouse} className="w-4" />
@@ -105,7 +105,7 @@ export default function MenuButton() {
 
             <li>
               <a
-                href="/"
+                href="/new"
                 className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-gray-700 transition"
               >
                 <FontAwesomeIcon icon={faPencilAlt} className="w-4" />

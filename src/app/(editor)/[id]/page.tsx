@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import hljs from "highlight.js";
 import "@catppuccin/highlightjs/css/catppuccin-mocha.css";
-import Footer from "@/components/Footer";
+import EditorFooter from "@/components/EditorFooter";
 import { getPaste } from "@/lib/api/paste";
 import Swal from "sweetalert2";
 import "@fontsource/jetbrains-mono/400.css";
@@ -80,7 +80,7 @@ export default function PastePage() {
           codeRef={codeElementRef}
         />
       </div>
-      <Footer
+      <EditorFooter
         language={language}
         setLanguage={setLanguage}
         title={title}

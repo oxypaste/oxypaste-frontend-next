@@ -1,10 +1,18 @@
-import AccountButton from "@/components/MenuButton";
 import "@/app/globals.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEdit,
+  faHome,
+  faPencil,
+  faPencilAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import { UserProvider } from "@/context/UserContext";
+import MenuButton from "@/components/MenuButton";
+import Footer from "@/components/Footer";
 
-const metadata = {
-  title: "OxyPaste",
-  description: "A PasteBin Service",
+export const metadata = {
+  title: "OxyPaste Account Centre",
+  description: "Description here",
 };
 
 export default function RootLayout({
@@ -14,23 +22,21 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="robots" content="noindex,nofollow" />
-      </head>
-      <body className="w-full h-full p-5 no-scroll">
+      <body className="text-white font-sans antialiased bg-white">
         <UserProvider>
-          <div className="h-screen flex flex-col">
-            <main className="flex flex-auto w-full overflow-hidden pb-5">
-              <div className="fixed top-4 right-4 z-30">
-                <AccountButton />
-              </div>
-              {children}
-            </main>
-          </div>
+          <ClientNavButton />
+          <main>{children}</main>
+          <Footer />
         </UserProvider>
       </body>
     </html>
+  );
+}
+
+function ClientNavButton() {
+  return (
+    <div className="z-50 fixed top-4 right-4 flex gap-2">
+      <MenuButton />
+    </div>
   );
 }
