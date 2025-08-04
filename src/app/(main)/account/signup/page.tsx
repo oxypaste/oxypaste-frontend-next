@@ -51,7 +51,7 @@ const SignupPage: React.FC = () => {
         if (data.token) {
           // Email verification is disabled: complete registration manually
           const verifyResp = await fetch(
-            `/api/user/verify/?token=${encodeURIComponent(data.token)}`,
+            `/api/user/verify?token=${encodeURIComponent(data.token)}`,
             {
               method: "GET",
             }
