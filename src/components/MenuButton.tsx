@@ -77,7 +77,7 @@ export default function MenuButton() {
     <div ref={menuRef} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-gray-800 to-black-100 text-white hover:scale-105 transition-transform shadow-lg focus:outline-none cursor-pointer"
+        className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-gray-800 to-gray-900 text-white hover:scale-105 transition-transform shadow-lg focus:outline-none cursor-pointer"
       >
         <OxyIcon
           className={`${
