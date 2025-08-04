@@ -152,7 +152,7 @@ export default function MenuButton() {
                 {/* Settings */}
                 <li>
                   <a
-                    href="/account/tokens"
+                    href="/account"
                     className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-gray-700 transition"
                   >
                     <FontAwesomeIcon icon={faGear} className="w-4" />
