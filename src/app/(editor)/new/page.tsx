@@ -16,7 +16,7 @@ export default function EditorPage() {
   const [language, setLanguage] = useState<Language>(Language.AutoDetect);
   const [title, setTitle] = useState("");
   const [isAutoDetect, setIsAutoDetect] = useState(true);
-  const [isPublic, setPublic] = useState(true);
+  const [isPublic, setPublic] = useState(false);
   const linenosRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
