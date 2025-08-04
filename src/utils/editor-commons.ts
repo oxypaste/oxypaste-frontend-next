@@ -1,20 +1,20 @@
 import { Language } from "@/lib/models/paste.model";
 
-import JavascriptPlain from "react-devicons/JavaScript/plain";
-import Css3Plain from "react-devicons/Css3/plain";
-import PythonPlain from "react-devicons/Python/plain";
-import TypescriptPlain from "react-devicons/Typescript/plain";
-import JavaPlain from "react-devicons/Java/plain";
-import COriginal from "react-devicons/C/original";
-import CplusplusPlain from "react-devicons/Cplusplus/plain";
-import GoPlain from "react-devicons/Go/plain";
-import RustOriginal from "react-devicons/Rust/original";
-import PhpPlain from "react-devicons/PHP/plain";
-import RubyPlain from "react-devicons/Ruby/plain";
-import BashPlain from "react-devicons/Bash/plain";
-import JsonPlain from "react-devicons/Json/plain";
-import YamlPlain from "react-devicons/Yaml/plain";
-import MarkdownOriginal from "react-devicons/Markdown/original";
+import JavascriptPlain from "react-devicons/javascript/plain";
+import Css3Plain from "react-devicons/css3/plain";
+import PythonPlain from "react-devicons/python/plain";
+import TypescriptPlain from "react-devicons/typescript/plain";
+import JavaPlain from "react-devicons/java/plain";
+import COriginal from "react-devicons/c/original";
+import CplusplusPlain from "react-devicons/cplusplus/plain";
+import GoPlain from "react-devicons/go/plain";
+import RustOriginal from "react-devicons/rust/original";
+import PhpPlain from "react-devicons/php/plain";
+import RubyPlain from "react-devicons/ruby/plain";
+import BashPlain from "react-devicons/bash/plain";
+import JsonPlain from "react-devicons/json/plain";
+import YamlPlain from "react-devicons/yaml/plain";
+import MarkdownOriginal from "react-devicons/markdown/original";
 
 export const SHORTCUTS = {
   SAVE: ["Control", "s"], // Ctrl + S
