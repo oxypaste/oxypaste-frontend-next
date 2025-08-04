@@ -30,6 +30,7 @@ export default function PastePage() {
           const data = await getPaste(id as string);
           setContent(data.content || "");
           setTitle(data.title);
+          setPublic(data.public);
 
           if (data.language) setIsAutoDetect(false);
           setLanguage(data.language);
