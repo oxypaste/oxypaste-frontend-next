@@ -9,6 +9,7 @@ import {
   faClock,
   faThumbtack,
   faPlus,
+  faSlidersH,
 } from "@fortawesome/free-solid-svg-icons";
 import { APP_CONFIG } from "../../../app.config";
 
@@ -225,16 +226,17 @@ function SearchInput({
 
       <button
         onClick={onSearch}
-        className="px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition"
+        className="cursor-pointer flex items-center gap-2 px-4 py-3 bg-gray-700 hover:bg-gray-600 text-white font-medium rounded-lg shadow-sm transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-900"
       >
+        <FontAwesomeIcon icon={faSearch} />
         Search
       </button>
 
       <button
         onClick={onToggleAdvanced}
-        className="text-sm text-blue-400 underline"
+        className="cursor-pointer inline-flex items-center gap-1 text-sm text-gray-300 hover:text-white underline underline-offset-4 transition"
       >
-        {showAdvanced ? "Hide Filters" : "Filters"}
+        <FontAwesomeIcon icon={faSlidersH} />
       </button>
     </div>
   );
