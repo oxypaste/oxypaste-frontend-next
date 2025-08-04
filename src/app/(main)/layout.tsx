@@ -4,8 +4,8 @@ import MenuButton from "@/components/MenuButton";
 import Footer from "@/components/Footer";
 
 export const metadata = {
-  title: "OxyPaste Account Centre",
-  description: "Description here",
+  title: "OxyPaste",
+  description: "OxyPaste is open-source Pastebin software.",
 };
 
 export default function RootLayout({
@@ -18,7 +18,7 @@ export default function RootLayout({
       <body className="text-white font-sans antialiased bg-white">
         <UserProvider>
           <ClientNavButton />
-          <main className="bg-[#0d0f14] text-white">{children}</main>
+          <main>{children}</main>
           <Footer />
         </UserProvider>
       </body>

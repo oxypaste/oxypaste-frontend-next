@@ -3,7 +3,7 @@ export const APP_CONFIG = {
   TERMS_AND_CONDITIONS_DOCUMENT: "terms",
   PRIVACY_POLICY_DOCUMENT: "privacy",
 
-  HOME_PAGE_TEXT: "OxyPaste is an open-source Pastebin software.",
+  HOME_PAGE_HEADING: "OxyPaste is open-source Pastebin software.",
 
   FOOTER_NAME: "OxyPaste",
   FOOTER_LINKS: [

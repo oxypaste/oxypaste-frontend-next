@@ -182,7 +182,7 @@ function WelcomeSection() {
 
       {/* Subheading */}
       <p className="text-gray-300 text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-8">
-        {APP_CONFIG.HOME_PAGE_TEXT}
+        {APP_CONFIG.HOME_PAGE_HEADING}
       </p>
 
       {/* Call to Action */}
