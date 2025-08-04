@@ -29,7 +29,7 @@ export const LANGUAGE_OPTIONS: { label: string; value: Language }[] = [
 ];
 
 export function toLanguageEnum(value: string): Language {
-  const normalized = value.trim().toLowerCase();
+  const normalized = value?.trim().toLowerCase();
 
   // Iterate through all values of the Language enum
   for (const lang of Object.values(Language)) {
