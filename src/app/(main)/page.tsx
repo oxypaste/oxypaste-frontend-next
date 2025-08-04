@@ -12,8 +12,12 @@ import {
   faSlidersH,
   faFileAlt,
   faRedo,
+  faFile,
+  faFileText,
 } from "@fortawesome/free-solid-svg-icons";
 import { APP_CONFIG } from "../../../app.config";
+import { getIcon, toLanguageEnum } from "@/utils/editor-commons";
+import { Language } from "@/lib/models/paste.model";
 
 interface PasteMeta {
   id: string;
@@ -21,6 +25,7 @@ interface PasteMeta {
   createdBy: string | null;
   createdAt: string;
   content?: string;
+  language?: Language;
 }
 
 const PAGE_SIZE = 10;
@@ -60,10 +65,8 @@ async function fetchPastes({
 
   const data = await res.json();
   return data.map((item: any) => ({
-    id: item.id,
-    title: item.title,
-    createdBy: item.createdBy,
-    createdAt: item.createdAt,
+    ...item,
+    language: toLanguageEnum(item.language),
   }));
 }
 
@@ -73,11 +76,7 @@ async function fetchRootPastes(): Promise<PasteMeta[]> {
 
   const data = await res.json();
   return data.map((item: any) => ({
-    id: item.id,
-    title: item.title,
-    createdBy: item.createdBy,
-    createdAt: item.createdAt,
-    content: item.content,
+    ...item,
   }));
 }
 
@@ -144,7 +143,7 @@ export default function HomePage() {
 
   return (
     <main className="max-w-6xl mx-auto px-4 py-8 text-white">
-      <WelcomeSection />
+      <HeroSection />
       <RootSection pastes={rootPastes} />
       <SearchInput
         value={search}
@@ -168,7 +167,7 @@ export default function HomePage() {
 }
 
 // Components below...
-function WelcomeSection() {
+function HeroSection() {
   const [stats, setStats] = useState<{ users: number; pastes: number } | null>(
     null
   );
@@ -199,26 +198,26 @@ function WelcomeSection() {
 
   return (
     <section
-      className="relative overflow-hidden rounded-xl border border-gray-600 bg-gray-900/70 backdrop-blur-sm shadow-md mb-8 px-6 py-14 sm:py-20 text-center"
+      className="relative overflow-hidden rounded-xl border border-gray-600 bg-gray-900/70 backdrop-blur-sm shadow-md mb-8 px-4 sm:px-6 py-14 sm:py-20 text-center"
       aria-live="polite"
       aria-busy={loading}
     >
-      {/* Background orbs */}
+      {/* Decorative Background Orbs */}
       <div className="absolute -top-20 -left-20 w-60 h-60 bg-blue-500 opacity-10 rounded-full pointer-events-none" />
       <div className="absolute -bottom-20 -right-20 w-60 h-60 bg-purple-600 opacity-10 rounded-full pointer-events-none" />
 
-      {/* Headline */}
+      {/* Heading */}
       <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 mb-4">
         Welcome to OxyPaste
       </h1>
 
       {/* Subheading */}
-      <p className="text-gray-300 text-base sm:text-lg md:text-xl max-w-xl mx-auto mb-8">
+      <p className="text-gray-300 text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-10">
         {APP_CONFIG.HOME_PAGE_HEADING}
       </p>
 
-      {/* Stats display */}
-      <div className="text-gray-400 text-base sm:text-lg md:text-xl max-w-xl mx-auto mb-8 flex justify-center gap-10 flex-wrap items-center">
+      {/* Stats Display */}
+      <div className="text-gray-400 text-base sm:text-lg max-w-2xl mx-auto mb-10 flex justify-center gap-x-10 gap-y-6 flex-wrap items-center text-center">
         {loading && (
           <p
             className="animate-pulse text-gray-400"
@@ -230,7 +229,7 @@ function WelcomeSection() {
         )}
 
         {error && (
-          <div role="alert" className="flex flex-col items-center gap-3">
+          <div role="alert" className="flex flex-col items-center gap-4">
             <p className="text-red-500 font-semibold">Error: {error}</p>
             <button
               onClick={fetchStats}
@@ -250,7 +249,9 @@ function WelcomeSection() {
                 className={`${ICON_CLASS} text-blue-400`}
                 aria-hidden="true"
               />
-              Total Users: <strong>{stats.users.toLocaleString()}</strong>
+              <span>
+                Total Users: <strong>{stats.users.toLocaleString()}</strong>
+              </span>
             </span>
             <span className="flex items-center gap-2">
               <FontAwesomeIcon
@@ -258,13 +259,15 @@ function WelcomeSection() {
                 className={`${ICON_CLASS} text-purple-400`}
                 aria-hidden="true"
               />
-              Total Pastes: <strong>{stats.pastes.toLocaleString()}</strong>
+              <span>
+                Total Pastes: <strong>{stats.pastes.toLocaleString()}</strong>
+              </span>
             </span>
           </>
         )}
       </div>
 
-      {/* Call to Action */}
+      {/* Call to Action Button */}
       <Link
         href="/new"
         className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 text-white font-semibold rounded-md shadow-md transition duration-150 ease-in-out"
@@ -282,7 +285,6 @@ function SearchInput({
   onChange,
   onSearch,
   onToggleAdvanced,
-  showAdvanced,
 }: {
   value: string;
   onChange: (val: string) => void;
@@ -291,8 +293,9 @@ function SearchInput({
   showAdvanced: boolean;
 }) {
   return (
-    <div className="relative mb-4 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-      <div className="relative flex-grow">
+    <div className="relative mb-4 flex flex-wrap gap-2 sm:gap-3 items-stretch">
+      {/* Input Field */}
+      <div className="relative flex-grow min-w-[200px]">
         <input
           type="text"
           placeholder="Search pastes..."
@@ -306,19 +309,22 @@ function SearchInput({
         />
       </div>
 
+      {/* Search Button */}
       <button
         onClick={onSearch}
-        className="cursor-pointer flex items-center gap-2 px-4 py-3 bg-gray-700 hover:bg-gray-600 text-white font-medium rounded-lg shadow-sm transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+        className="cursor-pointer flex items-center gap-2 px-4 py-3 bg-gray-700 hover:bg-gray-600 text-white font-medium rounded-lg shadow-sm transition focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-900"
       >
         <FontAwesomeIcon icon={faSearch} />
-        Search
+        <span className="hidden sm:inline">Search</span>
       </button>
 
+      {/* Advanced Toggle Button */}
       <button
         onClick={onToggleAdvanced}
-        className="cursor-pointer inline-flex items-center gap-1 text-sm text-gray-300 hover:text-white underline underline-offset-4 transition"
+        className="cursor-pointer flex items-center gap-1 px-3 py-3 text-sm text-gray-300 hover:text-white underline underline-offset-4 transition"
       >
         <FontAwesomeIcon icon={faSlidersH} />
+        <span className="hidden sm:inline">Advanced</span>
       </button>
     </div>
   );
@@ -337,7 +343,7 @@ function AdvancedSearch({
   setFilters: (field: keyof typeof filters, value: string | boolean) => void;
 }) {
   return (
-    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 mb-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 mb-8 w-full max-w-screen-xl px-4 mx-auto">
       {/* Created By */}
       <div className="flex flex-col">
         <label className="text-sm text-gray-300 mb-1">Created By</label>
@@ -373,7 +379,7 @@ function AdvancedSearch({
       </div>
 
       {/* Search in Title Only */}
-      <div className="flex flex-col">
+      <div className="flex flex-col sm:col-span-2 lg:col-span-1">
         <label className="text-sm text-gray-300 mb-1">Search Scope</label>
         <div className="flex items-center gap-2">
           <input
@@ -399,13 +405,16 @@ function PasteCard({
   paste: PasteMeta;
   isRoot?: boolean;
 }) {
+  const LanguageIcon = getIcon(paste.language);
+
   return (
     <Link
       href={`/${paste.id}`}
-      className={`group relative block ${
-        isRoot ? "p-6 rounded-xl shadow-md" : "p-5 rounded-lg"
-      } bg-gray-800 border border-gray-700 hover:border-blue-500 hover:shadow-lg transition-all duration-300`}
+      className={`group relative block transition-all duration-300 border border-gray-700 hover:border-blue-500 hover:shadow-lg bg-gray-800 ${
+        isRoot ? "p-6 rounded-xl" : "p-5 rounded-lg"
+      }`}
     >
+      {/* Pin icon for root pastes */}
       {isRoot && (
         <div className="absolute top-3 right-3 text-gray-400">
           <FontAwesomeIcon
@@ -416,46 +425,49 @@ function PasteCard({
       )}
 
       {/* Title */}
-      <h3 className="text-lg font-semibold truncate text-white group-hover:text-blue-400 pr-8">
+      <h3 className="text-lg font-semibold text-white truncate pr-10 group-hover:text-blue-400">
         {paste.title || "Untitled"}
       </h3>
 
-      {/* Content preview if root */}
+      {/* Content Preview (for root only) */}
       {isRoot && paste.content && (
-        <p className="text-gray-300 text-sm line-clamp-4 mt-2">
+        <p className="mt-2 text-sm text-gray-300 line-clamp-4">
           {paste.content}
         </p>
       )}
 
-      {/* Metadata */}
-      <div className="mt-3 text-sm text-gray-400 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4">
-        <span className="flex items-center gap-1 truncate">
-          <FontAwesomeIcon icon={faUser} />
-          <span className="truncate max-w-[200px]">
+      {/* Metadata Section */}
+      <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between text-sm text-gray-400">
+        {/* Creator and Language */}
+        <div className="flex flex-wrap items-center gap-2 overflow-hidden">
+          <FontAwesomeIcon icon={faUser} aria-label="Creator" />
+
+          <span className="truncate max-w-[150px] sm:max-w-[200px]">
             {paste.createdBy || "anonymous"}
           </span>
-        </span>
 
-        <span className="flex items-center gap-1 text-nowrap">
-          <FontAwesomeIcon icon={faClock} />
-          {new Date(paste.createdAt).toLocaleString()}
-        </span>
+          {LanguageIcon && paste.language && (
+            <span
+              className="flex items-center gap-1 ml-2 shrink-0 opacity-70"
+              title={`Language: ${paste.language}`}
+            >
+              <LanguageIcon color="white" aria-hidden="true" />
+              <span className="text-white text-xs capitalize">
+                {paste.language}
+              </span>
+            </span>
+          )}
+        </div>
+
+        {/* Timestamp */}
+        <div className="flex items-center gap-1 whitespace-nowrap">
+          <FontAwesomeIcon icon={faClock} aria-label="Timestamp" />
+          <time dateTime={new Date(paste.createdAt).toISOString()}>
+            {new Date(paste.createdAt).toLocaleString()}
+          </time>
+        </div>
       </div>
     </Link>
-  );
-}
-
-function RootSection({ pastes }: { pastes: PasteMeta[] }) {
-  if (pastes.length === 0) return null;
-
-  return (
-    <section className="mb-12">
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-        {pastes.map((paste) => (
-          <PasteCard key={paste.id} paste={paste} isRoot={true} />
-        ))}
-      </div>
-    </section>
   );
 }
 
@@ -473,8 +485,9 @@ function PasteList({
   searchActive: boolean;
 }) {
   return (
-    <section>
-      <h2 className="text-xl font-semibold mb-4 text-white flex items-center gap-2">
+    <section className="space-y-6">
+      {/* Section Heading */}
+      <h2 className="text-xl font-semibold text-white flex items-center gap-2">
         <FontAwesomeIcon
           icon={searchActive ? faSearch : faClock}
           className="text-blue-400"
@@ -482,22 +495,63 @@ function PasteList({
         {searchActive ? "Search Results" : "Recent Public Pastes"}
       </h2>
 
-      {loading && <p className="text-gray-400">Loading...</p>}
+      {/* Loading Skeleton */}
+      {loading && (
+        <div aria-live="polite" className="space-y-4">
+          {[...Array(3)].map((_, i) => (
+            <div
+              key={i}
+              className="h-24 bg-gray-700 animate-pulse rounded-lg"
+            ></div>
+          ))}
+        </div>
+      )}
+
+      {/* Empty State */}
       {!loading && pastes.length === 0 && (
-        <p className="text-gray-400">No pastes found.</p>
+        <div className="text-center text-gray-400 py-10">
+          <p className="text-lg">🕵️ No pastes found.</p>
+          <p className="text-sm">
+            Try refining your search or check back later.
+          </p>
+        </div>
       )}
 
-      {!loading &&
-        pastes.map((paste) => <PasteCard key={paste.id} paste={paste} />)}
+      {/* Paste Cards (Responsive Vertical List) */}
+      <div className="flex flex-col gap-4">
+        {!loading &&
+          pastes.map((paste) => (
+            <div key={paste.id} className="w-full mx-auto">
+              <PasteCard paste={paste} />
+            </div>
+          ))}
+      </div>
 
+      {/* Load More Button */}
       {hasMore && !loading && (
-        <button
-          onClick={loadMore}
-          className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-        >
-          Load More
-        </button>
+        <div className="flex justify-center mt-6">
+          <button
+            onClick={loadMore}
+            className="px-5 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+          >
+            Load More
+          </button>
+        </div>
       )}
+    </section>
+  );
+}
+
+function RootSection({ pastes }: { pastes: PasteMeta[] }) {
+  if (pastes.length === 0) return null;
+
+  return (
+    <section className="mb-12">
+      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        {pastes.map((paste) => (
+          <PasteCard key={paste.id} paste={paste} isRoot={true} />
+        ))}
+      </div>
     </section>
   );
 }

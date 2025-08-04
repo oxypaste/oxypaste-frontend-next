@@ -93,10 +93,6 @@ export default function EditorPage() {
           });
           setContent(`// Error loading paste '${id}': ${err.message}`);
         }
-      } else {
-        // Default readme
-        const data = await getPaste(APP_CONFIG.WELCOME_DOCUMENT);
-        setContent(data.content);
       }
     };
     fetchPaste();
