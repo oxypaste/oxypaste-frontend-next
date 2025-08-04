@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useRef, useEffect } from "react";
 import { useUser } from "@/context/UserContext";
 import Swal from "sweetalert2";
+import OxyIcon from "./OxyIcon";
 
 export default function MenuButton() {
   const [open, setOpen] = useState(false);
@@ -76,10 +77,9 @@ export default function MenuButton() {
     <div ref={menuRef} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-indigo-700 text-white hover:scale-105 transition-transform shadow-lg cursor-pointer"
+        className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-gray-800 to-black-100 text-white hover:scale-105 transition-transform shadow-lg focus:outline-none cursor-pointer"
       >
-        <FontAwesomeIcon
-          icon={faBars}
+        <OxyIcon
           className={`${
             open ? "spin-clockwise" : "spin-anticlockwise"
           } transition-transform duration-300`}

@@ -18,7 +18,7 @@ export default function RootLayout({
       <body className="text-white font-sans antialiased bg-white">
         <UserProvider>
           <ClientNavButton />
-          <main>{children}</main>
+          <main className="bg-[#0d0f14] text-white">{children}</main>
           <Footer />
         </UserProvider>
       </body>
