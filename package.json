@@ -1,6 +1,6 @@
 {
   "name": "oxypaste-frontend",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "homepage": "https://github.com/oxypaste",
   "scripts": {
@@ -25,6 +25,7 @@
     "marked": "^16.1.1",
     "next": "15.3.2",
     "react": "^19.0.0",
+    "react-devicons": "^2.16.2",
     "react-dom": "^19.0.0",
     "react-google-recaptcha": "^3.1.0",
     "react-loader-spinner": "^6.1.6",

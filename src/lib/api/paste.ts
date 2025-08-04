@@ -1,9 +1,11 @@
-import { Paste } from "@/lib/models/paste.model";
+import { Language, Paste } from "@/lib/models/paste.model";
+import { toLanguageEnum } from "@/utils/editor-commons";
 
 interface CreatePasteOptions {
   title: string;
   content: string;
   public: boolean;
+  language: Language;
   token?: string;
 }
 
@@ -11,6 +13,7 @@ export async function createPaste({
   title,
   content,
   public: isPublic,
+  language,
   token,
 }: CreatePasteOptions): Promise<Paste> {
   const res = await fetch("/api/pastes/", {
@@ -23,6 +26,7 @@ export async function createPaste({
       title,
       content,
       public: isPublic,
+      language: language || "",
     }),
   });
 
@@ -32,16 +36,24 @@ export async function createPaste({
   }
 
   const data: Paste = await res.json();
-  return data;
+  return {
+    ...data,
+    language: toLanguageEnum(data.language),
+  };
 }
 
 export async function getPaste(id: string): Promise<Paste> {
   const res = await fetch(`/api/pastes/${id}`);
 
   if (!res.ok) {
-    throw new Error(`Failed to fetch paste with id ${id}: ${res.statusText}`);
+    const errorBody = await res.json().catch(() => ({}));
+    throw new Error(errorBody.error || `Failed to fetch paste with ID ${id}`);
   }
 
-  const data: Paste = await res.json();
-  return data;
+  const data = await res.json();
+
+  return {
+    ...data,
+    language: toLanguageEnum(data.language),
+  };
 }

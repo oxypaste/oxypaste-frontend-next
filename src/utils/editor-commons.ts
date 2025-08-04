@@ -1,41 +1,66 @@
+import { Language } from "@/lib/models/paste.model";
+
+import JavascriptPlain from "react-devicons/javascript/plain";
+import Css3Plain from "react-devicons/css3/plain";
+import PythonPlain from "react-devicons/python/plain";
+import TypescriptPlain from "react-devicons/typescript/plain";
+import JavaPlain from "react-devicons/java/plain";
+import COriginal from "react-devicons/c/original";
+import CplusplusPlain from "react-devicons/cplusplus/plain";
+import GoPlain from "react-devicons/go/plain";
+import RustOriginal from "react-devicons/rust/original";
+import PhpPlain from "react-devicons/php/plain";
+import RubyPlain from "react-devicons/ruby/plain";
+import BashPlain from "react-devicons/bash/plain";
+import JsonPlain from "react-devicons/json/plain";
+import YamlPlain from "react-devicons/yaml/plain";
+import MarkdownOriginal from "react-devicons/markdown/original";
+
 export const SHORTCUTS = {
-  SAVE: ["Control", "s"],         // Ctrl + S
-  EDIT: ["Control", "e"],         // Ctrl + E
-  NEW: ["Control", "Shift", "n"],          // Ctrl + Shift + N
-  RAW: ["Control", "Shift", "r"],      // Ctrl + Shift + R
-  SHARE: ["Control", "Shift", "s"] // Ctrl + Shift + S
+  SAVE: ["Control", "s"], // Ctrl + S
+  EDIT: ["Control", "e"], // Ctrl + E
+  NEW: ["Control", "Shift", "n"], // Ctrl + Shift + N
+  RAW: ["Control", "Shift", "r"], // Ctrl + Shift + R
+  SHARE: ["Control", "Shift", "s"], // Ctrl + Shift + S
 };
 
-export const LANGUAGE_OPTIONS: { label: string; value: string }[] = [
-  { label: "Auto Detect", value: "" },
-  { label: "Plaintext", value: "plaintext" },
-  { label: "JavaScript", value: "javascript" },
-  { label: "CSS", value: "css" },
-  { label: "Python", value: "python" },
-  { label: "TypeScript", value: "typescript" },
-  { label: "Java", value: "java" },
-  { label: "C", value: "c" },
-  { label: "C++", value: "cpp" },
-  { label: "Go", value: "go" },
-  { label: "Rust", value: "rs" },
-  { label: "PHP", value: "php" },
-  { label: "Ruby", value: "ruby" },
-  { label: "Bash", value: "bash" },
-  { label: "JSON", value: "json" },
-  { label: "YAML", value: "yaml" },
-  { label: "Markdown", value: "markdown" },
+export const LANGUAGE_OPTIONS: {
+  label: string;
+  value: Language;
+  icon?: React.ElementType;
+}[] = [
+  { label: "Auto Detect", value: Language.AutoDetect },
+  { label: "Plaintext", value: Language.Plaintext },
+  { label: "JavaScript", value: Language.JavaScript, icon: JavascriptPlain },
+  { label: "CSS", value: Language.CSS, icon: Css3Plain },
+  { label: "Python", value: Language.Python, icon: PythonPlain },
+  { label: "TypeScript", value: Language.TypeScript, icon: TypescriptPlain },
+  { label: "Java", value: Language.Java, icon: JavaPlain },
+  { label: "C", value: Language.C, icon: COriginal },
+  { label: "C++", value: Language.Cpp, icon: CplusplusPlain },
+  { label: "Go", value: Language.Go, icon: GoPlain },
+  { label: "Rust", value: Language.Rust, icon: RustOriginal },
+  { label: "PHP", value: Language.PHP, icon: PhpPlain },
+  { label: "Ruby", value: Language.Ruby, icon: RubyPlain },
+  { label: "Bash", value: Language.Bash, icon: BashPlain },
+  { label: "JSON", value: Language.JSON, icon: JsonPlain },
+  { label: "YAML", value: Language.YAML, icon: YamlPlain },
+  { label: "Markdown", value: Language.Markdown, icon: MarkdownOriginal },
 ];
 
-export async function getPaste(id: string): Promise<{ content: string; language?: string, title?: string }> {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || ''}/api/pastes/${id}`);
-    if (!res.ok) {
-        const body = await res.json();
-        throw new Error(body.error);
+export function toLanguageEnum(value: string): Language {
+  const normalized = value?.trim().toLowerCase();
+
+  for (const lang of Object.values(Language)) {
+    if (lang === normalized) {
+      return lang as Language;
     }
-    const data = await res.json();
-    return {
-        content: data.content || '',
-        language: data.language,
-        title: data.title,
-    };
+  }
+
+  return Language.AutoDetect;
+}
+
+export function getIcon(language?: Language): React.ElementType | undefined {
+  const option = LANGUAGE_OPTIONS.find((option) => option.value === language);
+  return option?.icon;
 }

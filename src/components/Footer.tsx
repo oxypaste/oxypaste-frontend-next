@@ -1,10 +1,29 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { APP_CONFIG } from "../../app.config";
 
+// Read frontend version from env var
+const frontendVersion = process.env.NEXT_PUBLIC_FRONTEND_VERSION || "unknown";
+
 export default function Footer() {
+  const [backendVersion, setBackendVersion] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Fetch backend version
+    fetch("/api/version")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.version) {
+          setBackendVersion(data.version);
+        }
+      })
+      .catch(() => {
+        setBackendVersion("unavailable");
+      });
+  }, []);
+
   return (
     <footer className="bg-gray-950 text-gray-400 px-6 py-10 border-t border-gray-800">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-center text-sm">
@@ -31,8 +50,14 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Right: Empty or for future use */}
-        <div className="text-center md:text-right" />
+        {/* Right: Versions */}
+        <div className="text-center md:text-right text-xs text-gray-500">
+          <p>Oxypaste Frontend: v{frontendVersion}</p>
+          <p>
+            Oxypaste Backend: {backendVersion && "v"}
+            {backendVersion || "loading..."}
+          </p>
+        </div>
       </div>
     </footer>
   );

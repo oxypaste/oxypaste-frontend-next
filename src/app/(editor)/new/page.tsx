@@ -4,17 +4,19 @@ import { useState, useRef, useEffect } from "react";
 import EditorFooter from "@/components/EditorFooter";
 import hljs from "highlight.js";
 import Swal from "sweetalert2";
-import { getPaste } from "@/utils/editor-commons";
+import { getPaste } from "@/lib/api/paste";
 import "@fontsource/jetbrains-mono/400.css";
 import { createPaste } from "@/lib/api/paste";
 import { APP_CONFIG } from "../../../../app.config";
+import { Language } from "@/lib/models/paste.model";
+import { toLanguageEnum } from "@/utils/editor-commons";
 
-export default function HomePage() {
+export default function EditorPage() {
   const [content, setContent] = useState(``);
-  const [language, setLanguage] = useState("");
+  const [language, setLanguage] = useState<Language>(Language.AutoDetect);
   const [title, setTitle] = useState("");
   const [isAutoDetect, setIsAutoDetect] = useState(true);
-  const [isPublic, setPublic] = useState(true);
+  const [isPublic, setPublic] = useState(false);
   const linenosRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -33,6 +35,7 @@ export default function HomePage() {
         title,
         content,
         public: isPublic,
+        language: language,
         token,
       });
 
@@ -65,9 +68,9 @@ export default function HomePage() {
     const result = hljs.highlightAuto(codeText);
 
     if (result.language) {
-      setLanguage(result.language);
+      setLanguage(toLanguageEnum(result.language));
     } else {
-      setLanguage("");
+      setLanguage(Language.AutoDetect);
     }
   }, [content, isAutoDetect]);
 
@@ -90,10 +93,6 @@ export default function HomePage() {
           });
           setContent(`// Error loading paste '${id}': ${err.message}`);
         }
-      } else {
-        // Default readme
-        const data = await getPaste(APP_CONFIG.WELCOME_DOCUMENT);
-        setContent(data.content);
       }
     };
     fetchPaste();
