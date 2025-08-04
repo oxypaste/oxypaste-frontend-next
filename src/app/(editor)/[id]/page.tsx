@@ -8,13 +8,15 @@ import EditorFooter from "@/components/EditorFooter";
 import { getPaste } from "@/lib/api/paste";
 import Swal from "sweetalert2";
 import "@fontsource/jetbrains-mono/400.css";
+import { Language } from "@/lib/models/paste.model";
+import { toLanguageEnum } from "@/utils/editor-commons";
 
 export default function PastePage() {
   const { id } = useParams();
 
   const [isAutoDetect, setIsAutoDetect] = useState(true);
   const [title, setTitle] = useState("");
-  const [language, setLanguage] = useState("");
+  const [language, setLanguage] = useState<Language>(Language.AutoDetect);
   const [content, setContent] = useState("");
   const [isPublic, setPublic] = useState(true);
 
@@ -28,7 +30,9 @@ export default function PastePage() {
           const data = await getPaste(id as string);
           setContent(data.content || "");
           setTitle(data.title);
-          // todo: fix language
+
+          if (data.language) setIsAutoDetect(false);
+          setLanguage(data.language);
         } catch (err: any) {
           Swal.fire({
             icon: "error",

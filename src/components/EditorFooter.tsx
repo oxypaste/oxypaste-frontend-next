@@ -9,16 +9,21 @@ import {
   faShare,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
-import { LANGUAGE_OPTIONS, SHORTCUTS } from "@/utils/editor-commons";
+import {
+  LANGUAGE_OPTIONS,
+  SHORTCUTS,
+  toLanguageEnum,
+} from "@/utils/editor-commons";
 
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Globe, Globe2 } from "lucide-react";
+import { Language } from "@/lib/models/paste.model";
 
 interface FooterProps {
   language: string;
-  setLanguage: (lang: string) => void;
+  setLanguage: (lang: Language) => void;
   title: string;
   setTitle: (title: string) => void;
   setIsAutoDetect: (val: boolean) => void;
@@ -43,7 +48,7 @@ export default function EditorFooter({
 }: FooterProps) {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
-    setLanguage(value);
+    setLanguage(toLanguageEnum(value));
     setIsAutoDetect(value === ""); // true if "Auto Detect" is selected
   };
 
