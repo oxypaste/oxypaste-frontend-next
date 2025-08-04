@@ -9,9 +9,6 @@ import {
   faClock,
   faThumbtack,
   faPlus,
-  faThumbtackSlash,
-  faThumbTack,
-  faClipboard,
 } from "@fortawesome/free-solid-svg-icons";
 import { APP_CONFIG } from "../../../app.config";
 
@@ -170,27 +167,28 @@ export default function HomePage() {
 // Components below...
 function WelcomeSection() {
   return (
-    <section className="relative overflow-hidden rounded-2xl border border-gray-700 bg-gradient-to-br from-gray-900/80 via-gray-800/70 to-gray-900/80 backdrop-blur-md shadow-2xl mb-10 px-6 py-14 sm:py-20 text-center">
-      {/* Floating ambient gradient orbs */}
-      <div className="absolute -top-32 -left-32 w-80 h-80 bg-blue-500 opacity-20 rounded-full blur-[120px] animate-pulse pointer-events-none" />
-      <div className="absolute -bottom-32 -right-32 w-80 h-80 bg-purple-600 opacity-20 rounded-full blur-[120px] animate-pulse pointer-events-none" />
+    <section className="relative overflow-hidden rounded-xl border border-gray-600 bg-gray-900/70 backdrop-blur-sm shadow-md mb-8 px-4 py-12 sm:py-16 text-center">
+      {/* Subtle ambient background orbs */}
+      <div className="absolute -top-20 -left-20 w-60 h-60 bg-blue-500 opacity-10 rounded-full pointer-events-none" />
+      <div className="absolute -bottom-20 -right-20 w-60 h-60 bg-purple-600 opacity-10 rounded-full pointer-events-none" />
 
       {/* Headline */}
-      <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 drop-shadow mb-4">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 mb-3">
         Welcome to OxyPaste
       </h1>
 
       {/* Subheading */}
-      <p className="text-gray-300 text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-8">
+      <p className="text-gray-300 text-sm sm:text-base md:text-lg max-w-xl mx-auto mb-6">
         {APP_CONFIG.HOME_PAGE_HEADING}
       </p>
 
       {/* Call to Action */}
-      <Link href="/new">
-        <button className="cursor-pointer inline-flex items-center gap-2 px-6 py-3 text-white bg-blue-600 hover:bg-blue-700 font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-md">
-          <FontAwesomeIcon icon={faPlus} className="text-sm" />
-          Create a New Paste
-        </button>
+      <Link
+        href="/new"
+        className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-sm transition duration-150 ease-in-out"
+      >
+        <FontAwesomeIcon icon={faPlus} />
+        New Paste
       </Link>
     </section>
   );

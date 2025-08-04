@@ -2,13 +2,13 @@
 
 import React from "react";
 
-type OxyMoleculeIconProps = {
+type OxyIconProps = {
   width?: number;
   height?: number;
   className?: string;
 };
 
-const OxyMoleculeIcon: React.FC<OxyMoleculeIconProps> = ({
+const OxyIcon: React.FC<OxyIconProps> = ({
   width = 120,
   height = 48,
   className = "",
@@ -79,4 +79,4 @@ const OxyMoleculeIcon: React.FC<OxyMoleculeIconProps> = ({
   );
 };
 
-export default OxyMoleculeIcon;
+export default OxyIcon;
