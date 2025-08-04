@@ -133,6 +133,7 @@ export default function EditorPage() {
         isEditor={true}
         handleSave={handleSave}
         handleEdit={() => {}}
+        handleShare={() => {}}
       />
     </>
   );

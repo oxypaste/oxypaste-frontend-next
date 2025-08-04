@@ -32,6 +32,7 @@ interface FooterProps {
   isEditor: boolean;
   handleSave: () => void;
   handleEdit: () => void;
+  handleShare: () => void;
 }
 
 export default function EditorFooter({
@@ -45,6 +46,7 @@ export default function EditorFooter({
   isEditor,
   handleSave,
   handleEdit,
+  handleShare,
 }: FooterProps) {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
@@ -60,8 +62,6 @@ export default function EditorFooter({
   const handleRaw = () => {
     window.location.href = window.location.href + "/raw";
   };
-
-  const handleShare = () => {};
 
   const [showMenu, setShowMenu] = useState(false);
 
