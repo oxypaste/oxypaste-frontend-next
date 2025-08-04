@@ -53,7 +53,10 @@ export default function Footer() {
         {/* Right: Versions */}
         <div className="text-center md:text-right text-xs text-gray-500">
           <p>Oxypaste Frontend: v{frontendVersion}</p>
-          <p>Oxypaste Backend: v{backendVersion || "loading..."}</p>
+          <p>
+            Oxypaste Backend: {backendVersion && "v"}
+            {backendVersion || "loading..."}
+          </p>
         </div>
       </div>
     </footer>
