@@ -10,6 +10,8 @@ import {
   faThumbtack,
   faPlus,
   faSlidersH,
+  faFileAlt,
+  faRedo,
 } from "@fortawesome/free-solid-svg-icons";
 import { APP_CONFIG } from "../../../app.config";
 
@@ -167,26 +169,106 @@ export default function HomePage() {
 
 // Components below...
 function WelcomeSection() {
+  const [stats, setStats] = useState<{ users: number; pastes: number } | null>(
+    null
+  );
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const ICON_CLASS = "text-lg sm:text-xl md:text-2xl";
+
+  const fetchStats = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/stats");
+      if (!res.ok) throw new Error("Failed to fetch stats");
+      const data = await res.json();
+      setStats(data);
+    } catch (err) {
+      setError((err as Error).message);
+      setStats(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
   return (
-    <section className="relative overflow-hidden rounded-xl border border-gray-600 bg-gray-900/70 backdrop-blur-sm shadow-md mb-8 px-4 py-12 sm:py-16 text-center">
-      {/* Subtle ambient background orbs */}
+    <section
+      className="relative overflow-hidden rounded-xl border border-gray-600 bg-gray-900/70 backdrop-blur-sm shadow-md mb-8 px-6 py-14 sm:py-20 text-center"
+      aria-live="polite"
+      aria-busy={loading}
+    >
+      {/* Background orbs */}
       <div className="absolute -top-20 -left-20 w-60 h-60 bg-blue-500 opacity-10 rounded-full pointer-events-none" />
       <div className="absolute -bottom-20 -right-20 w-60 h-60 bg-purple-600 opacity-10 rounded-full pointer-events-none" />
 
       {/* Headline */}
-      <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 mb-3">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 mb-4">
         Welcome to OxyPaste
       </h1>
 
       {/* Subheading */}
-      <p className="text-gray-300 text-sm sm:text-base md:text-lg max-w-xl mx-auto mb-6">
+      <p className="text-gray-300 text-base sm:text-lg md:text-xl max-w-xl mx-auto mb-8">
         {APP_CONFIG.HOME_PAGE_HEADING}
       </p>
+
+      {/* Stats display */}
+      <div className="text-gray-400 text-base sm:text-lg md:text-xl max-w-xl mx-auto mb-8 flex justify-center gap-10 flex-wrap items-center">
+        {loading && (
+          <p
+            className="animate-pulse text-gray-400"
+            aria-live="assertive"
+            aria-label="Loading statistics"
+          >
+            Loading statistics...
+          </p>
+        )}
+
+        {error && (
+          <div role="alert" className="flex flex-col items-center gap-3">
+            <p className="text-red-500 font-semibold">Error: {error}</p>
+            <button
+              onClick={fetchStats}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 text-white rounded-md transition"
+            >
+              <FontAwesomeIcon icon={faRedo} />
+              Retry
+            </button>
+          </div>
+        )}
+
+        {!loading && !error && stats && (
+          <>
+            <span className="flex items-center gap-2">
+              <FontAwesomeIcon
+                icon={faUser}
+                className={`${ICON_CLASS} text-blue-400`}
+                aria-hidden="true"
+              />
+              Total Users: <strong>{stats.users.toLocaleString()}</strong>
+            </span>
+            <span className="flex items-center gap-2">
+              <FontAwesomeIcon
+                icon={faFileAlt}
+                className={`${ICON_CLASS} text-purple-400`}
+                aria-hidden="true"
+              />
+              Total Pastes: <strong>{stats.pastes.toLocaleString()}</strong>
+            </span>
+          </>
+        )}
+      </div>
 
       {/* Call to Action */}
       <Link
         href="/new"
-        className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-sm transition duration-150 ease-in-out"
+        className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 text-white font-semibold rounded-md shadow-md transition duration-150 ease-in-out"
+        aria-label="Create a new paste"
       >
         <FontAwesomeIcon icon={faPlus} />
         New Paste
