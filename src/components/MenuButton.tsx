@@ -9,6 +9,8 @@ import {
   faRightToBracket,
   faHouse,
   faPencilAlt,
+  faKey,
+  faGears,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useRef, useEffect } from "react";
@@ -123,16 +125,42 @@ export default function MenuButton() {
               </div>
             </li>
 
-            {/* History Link */}
-            <li>
-              <a
-                href="/account/history"
-                className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-gray-700 transition"
-              >
-                <FontAwesomeIcon icon={faClockRotateLeft} className="w-4" />
-                History
-              </a>
-            </li>
+            {user && (
+              <>
+                {/* History Link */}
+                <li>
+                  <a
+                    href="/account/history"
+                    className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-gray-700 transition"
+                  >
+                    <FontAwesomeIcon icon={faClockRotateLeft} className="w-4" />
+                    History
+                  </a>
+                </li>
+
+                {/* Tokens */}
+                <li>
+                  <a
+                    href="/account/tokens"
+                    className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-gray-700 transition"
+                  >
+                    <FontAwesomeIcon icon={faKey} className="w-4" />
+                    API Tokens
+                  </a>
+                </li>
+
+                {/* Settings */}
+                <li>
+                  <a
+                    href="/account/tokens"
+                    className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-gray-700 transition"
+                  >
+                    <FontAwesomeIcon icon={faGear} className="w-4" />
+                    Settings
+                  </a>
+                </li>
+              </>
+            )}
 
             <hr className="my-2 border-gray-600" />
 
@@ -141,7 +169,7 @@ export default function MenuButton() {
               {user ? (
                 <button
                   onClick={handleLogout}
-                  className="flex items-center gap-2 px-4 py-2 w-full text-left rounded-md hover:bg-red-600 hover:text-white transition"
+                  className="flex items-center gap-2 px-4 py-2 w-full text-left rounded-md hover:bg-red-600 hover:text-white transition cursor-pointer"
                 >
                   <FontAwesomeIcon icon={faRightFromBracket} className="w-4" />
                   Logout
@@ -149,7 +177,7 @@ export default function MenuButton() {
               ) : (
                 <a
                   href="/account/login"
-                  className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-blue-600 hover:text-white transition"
+                  className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-blue-600 hover:text-white transition cursor-pointer"
                 >
                   <FontAwesomeIcon icon={faRightToBracket} className="w-4" />
                   Login
